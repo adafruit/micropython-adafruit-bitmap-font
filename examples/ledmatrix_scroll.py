@@ -3,7 +3,7 @@
 # initialization at the bottom for other ports.
 # Author: Tony DiCola
 # License: MIT (https://opensource.org/licenses/MIT)
-import font
+import bitmapfont
 import ht16k33_matrix
 import machine
 import utime
@@ -23,10 +23,10 @@ def main(i2c):
     # when rendering so the origin is in the upper left.
     def matrix_pixel(x, y):
         matrix.pixel(x, DISPLAY_HEIGHT-1-y, 1)
-    with font.FontRenderer(DISPLAY_WIDTH, DISPLAY_HEIGHT, matrix_pixel) as fr:
+    with bitmapfont.BitmapFont(DISPLAY_WIDTH, DISPLAY_HEIGHT, matrix_pixel) as bf:
         # Global state:
         pos = DISPLAY_WIDTH                 # X position of the message start.
-        message_width = fr.width(MESSAGE)   # Message width in pixels.
+        message_width = bf.width(MESSAGE)   # Message width in pixels.
         last = utime.ticks_ms()             # Last frame millisecond tick time.
         speed_ms = SPEED / 1000.0           # Scroll speed in pixels/ms.
         # Main loop:
@@ -41,7 +41,7 @@ def main(i2c):
                 pos = DISPLAY_WIDTH
             # Clear the matrix and draw the text at the current position.
             matrix.fill(0)
-            fr.text(MESSAGE, int(pos), 0)
+            bf.text(MESSAGE, int(pos), 0)
             # Update the matrix LEDs.
             matrix.show()
             # Sleep a bit to give USB mass storage some processing time (quirk

@@ -3,7 +3,7 @@
 # initialization at the bottom for other ports.
 # Author: Tony DiCola
 # License: Public Domain
-import font
+import bitmapfont
 import is31fl3731
 import machine
 import utime
@@ -22,10 +22,10 @@ def main(i2c):
     matrix = is31fl3731.CharlieWing(i2c)
     matrix.fill(0)
     # Initialize font renderer.
-    with font.FontRenderer(DISPLAY_WIDTH, DISPLAY_HEIGHT, matrix.pixel) as fr:
+    with bitmapfont.BitmapFont(DISPLAY_WIDTH, DISPLAY_HEIGHT, matrix.pixel) as bf:
         # Global state:
         pos = DISPLAY_WIDTH                 # X position of the message start.
-        message_width = fr.width(MESSAGE)   # Message width in pixels.
+        message_width = bf.width(MESSAGE)   # Message width in pixels.
         frame = 0                           # Currently displayed frame.
         last = utime.ticks_ms()             # Last frame millisecond tick time.
         speed_ms = SPEED / 1000.0           # Scroll speed in pixels/ms.
@@ -43,7 +43,7 @@ def main(i2c):
             matrix.frame(frame, show=False)
             # Clear the frame and draw the text at the current position.
             matrix.fill(0)
-            fr.text(MESSAGE, int(pos), 0, INTENSITY)
+            bf.text(MESSAGE, int(pos), 0, INTENSITY)
             # Swap to the new frame on the display.
             matrix.frame(frame)
             # Sleep a bit to give USB mass storage some processing time (quirk

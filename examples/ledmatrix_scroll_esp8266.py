@@ -35,7 +35,7 @@ def main(i2c):
         while True:
             # Compute the time delta in milliseconds since the last frame.
             current = utime.ticks_ms()
-            delta_ms = utime.ticks_diff(last, current)
+            delta_ms = utime.ticks_diff(current, last)
             last = current
             # Compute position using speed and time delta.
             pos -= speed_ms*delta_ms

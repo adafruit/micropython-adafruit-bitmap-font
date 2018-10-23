@@ -1,7 +1,10 @@
 # MicroPython basic bitmap font renderer.
 # Author: Tony DiCola
 # License: MIT License (https://opensource.org/licenses/MIT)
-import ustruct
+try:
+    import ustruct
+except ImportError:
+    import struct as ustruct
 
 
 class BitmapFont:
